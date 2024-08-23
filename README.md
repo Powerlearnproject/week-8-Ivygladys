@@ -50,3 +50,43 @@ Select a Sustainable Development Goal (SDG) that resonates with you and develop 
 - Integration documentation
 - Pitch deck presentation (Provide the link e.g Canva or Gamma in your documentation)
 
+[Uploading CREATE TABLE Users (
+    UserID INT PRIMARY KEY,
+    Name VARCHAR(100),
+    Age INT,
+    Income DECIMAL(12, 2)
+);
+
+CREATE TABLE Expenses (
+    ExpenseID INT PRIMARY KEY,
+    UserID INT,
+    Category VARCHAR(50),
+    Amount DECIMAL(10, 2),
+    Date DATE,
+    FOREIGN KEY (UserID) REFERENCES Users(UserID)
+);
+
+CREATE TABLE Savings (
+    SavingID INT PRIMARY KEY,
+    UserID INT,
+    Amount DECIMAL(10, 2),
+    Date DATE,
+    FOREIGN KEY (UserID) REFERENCES Users(UserID)
+);
+SELECT Users.Name, COALESCE(SUM(Expenses.Amount), 0) AS TotalExpenses, COALESCE(SUM(Savings.Amount), 0) AS TotalSavings
+FROM Users
+LEFT JOIN Expenses ON Users.UserID = Expenses.UserID
+LEFT JOIN Savings ON Users.UserID = Savings.UserID
+GROUP BY Users.Name;
+SELECT Users.Name, 
+       (COALESCE(SUM(Savings.Amount), 0) / COALESCE(SUM(Expenses.Amount), 1)) * 100 AS SavingsRate
+FROM Users
+LEFT JOIN Expenses ON Users.UserID = Expenses.UserID
+LEFT JOIN Savings ON Users.UserID = Savings.UserID
+GROUP BY Users.Name;
+
+
+expenseee.sql…]()
+[assign 8.xlsx](https://github.com/user-attachments/files/16728998/assign.8.xlsx)
+
+
